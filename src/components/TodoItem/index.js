@@ -1,19 +1,38 @@
 import './index.css'
 
-const TodoItem = props => {
-  const {todoDetails, deleteTodo} = props
-  const {id, title} = todoDetails
-
-  const onDeleteTodo = () => {
-    deleteTodo(id)
-  }
+const TodoItem = ({
+  todo,
+  editIndex,
+  editText,
+  onDelete,
+  onEdit,
+  onSave,
+  onEditChange,
+  onComplete,
+}) => {
+  const {title, completed, id} = todo
 
   return (
     <li className="todo-item">
-      <p className="title">{title}</p>
-      <button type="button" className="delete-btn" onClick={onDeleteTodo}>
-        Delete
-      </button>
+      <input type="checkbox" checked={completed} onChange={onComplete} />
+      {editIndex === id ? (
+        <>
+          <input type="text" value={editText} onChange={onEditChange} />
+          <button onClick={onSave} type="button">
+            Save
+          </button>
+        </>
+      ) : (
+        <>
+          <p className={completed ? 'completed' : ''}>{title}</p>
+          <button onClick={onEdit} type="button">
+            Edit
+          </button>
+          <button onClick={onDelete} type="button">
+            Delete
+          </button>
+        </>
+      )}
     </li>
   )
 }
